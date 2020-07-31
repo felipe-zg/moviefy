@@ -1,3 +1,6 @@
 import styled from 'styled-components/native';
 
-export const Container = styled.View``;
+export const Poster = styled.Image`
+    height: 300px;
+    width: 200px;
+`;

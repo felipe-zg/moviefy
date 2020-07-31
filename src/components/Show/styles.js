@@ -16,3 +16,8 @@ export const Photo = styled.Image`
 export const Info = styled.View`
     margin: 10px;
 `;
+
+export const NumberOfViewers = styled.View`
+    flex-direction: row;
+    align-items: center;
+`;

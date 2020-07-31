@@ -5,4 +5,5 @@ export default styled.Text`
     font-size: ${(props) => props.size || '12px'};
     font-weight: ${(props) => props.weight || 'normal'};
     flex-shrink: ${(props) => props.flexShrink || '1'};
+    text-align: justify;
 `;

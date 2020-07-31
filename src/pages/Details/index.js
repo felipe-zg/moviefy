@@ -1,10 +1,21 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View} from 'react-native';
 import api from '../../services/api';
 
 import poster from '../../assets/images/poster.jpg';
 import ScrollableContainer from '../../components/ScrollableContainer';
-import {Poster} from './styles';
+import Text from '../../components/Text';
+import {
+    Poster,
+    PosterView,
+    GenresRow,
+    Genre,
+    Info,
+    Link,
+    Person,
+    PersonPhoto,
+    PersonInfo
+} from './styles';
 
 const Details = ({route}) => {
     const {show} = route.params;
@@ -19,22 +30,69 @@ const Details = ({route}) => {
             setPeople(response.data);
         });
     });
+
+    const renderCast = () => {
+        return people.cast.map((person, index) => {
+            if (index < 5) {
+                return (
+                    <Person key={index}>
+                        <PersonPhoto />
+                        <PersonInfo>
+                            <Text size="14px" weight="bold">
+                                Actor/Actress:
+                            </Text>
+                            <Text>{person.person.name}</Text>
+                            <Text size="14px" weight="bold">
+                                Character(s):
+                            </Text>
+                            {person.characters.map((character, index) => (
+                                <Text key={index}>{character}</Text>
+                            ))}
+                        </PersonInfo>
+                    </Person>
+                );
+            }
+        });
+    };
+
     return (
         <ScrollableContainer>
             {!summary && <Text>Carregando</Text>}
             {summary && (
                 <>
-                    <View>
-                        <Poster souce={poster} />
-                    </View>
-                    <Text>Detalhes do filme</Text>
-                    <Text>{summary.title}</Text>
-                    <Text>{summary.tagline}</Text>
-                    <Text>{summary.overview}</Text>
+                    <PosterView>
+                        <Poster source={poster} />
+                    </PosterView>
+                    <Info background="#1d334a">
+                        <Text size="16px" weight="bold">
+                            {summary.title}
+                        </Text>
+                        <Text size="14px">{summary.tagline}</Text>
+                    </Info>
+                    <GenresRow>
+                        {summary.genres.map((genrer, index) => (
+                            <Genre key={index}>
+                                <Text>{genrer}</Text>
+                            </Genre>
+                        ))}
+                    </GenresRow>
+                    <Info background="#084d6e">
+                        <Text size="14px" weight="bold">
+                            Overview
+                        </Text>
+                        <Text>{summary.overview}</Text>
+                    </Info>
                 </>
             )}
-            {people &&
-                people.cast.map((person) => <Text>{person.person.name}</Text>)}
+            <Info background="#1d334a">
+                <Text size="16px" weight="bold">
+                    Cast
+                </Text>
+            </Info>
+            {people && renderCast()}
+            <Link onPress={() => console.warn('abrindo site')}>
+                <Text>Go to website</Text>
+            </Link>
         </ScrollableContainer>
     );
 };

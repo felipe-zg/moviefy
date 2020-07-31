@@ -1,32 +1,42 @@
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {TouchableOpacity, Text} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
 import api from '../../services/api';
 
-import ScrollableContainer from '../../components/ScrollableContainer';
 import Container from '../../components/Container';
 import Show from '../../components/Show';
-// import { Container } from './styles';
+import {MovieList} from './styles';
 
 const Home = () => {
-    const [trending, setTrendings] = useState(null);
+    const [trendings, setTrendings] = useState(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         api.get('/movies/trending').then((response) => {
-            setTrendings(response.data);
             console.log(response.data);
+            setTrendings(response.data);
         });
     });
-
-    const renderTrendings = () => {
-        return trending.map((trending) => (
-            <Show show={trending.movie} watchers={trending.watchers} />
-        ));
-    };
     return (
-        <ScrollableContainer>
-            {!trending && <Text>Carregando filmes</Text>}
-            {trending && renderTrendings()}
-        </ScrollableContainer>
+        <Container>
+            {!trendings && <Text>Carregando filmes</Text>}
+            {trendings && (
+                <MovieList
+                    data={trendings}
+                    renderItem={({item}) => (
+                        <TouchableOpacity
+                            onPress={() =>
+                                navigation.navigate('DetailsScreen', {
+                                    show: item.movie
+                                })
+                            }>
+                            <Show show={item.movie} watchers={item.watchers} />
+                        </TouchableOpacity>
+                    )}
+                    keyExtractor={(item) => String(item.movie.ids.trakt)}
+                />
+            )}
+        </Container>
     );
 };
 export default Home;

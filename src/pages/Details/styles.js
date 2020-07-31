@@ -21,6 +21,20 @@ export const Genre = styled.View`
     border-radius: 10px;
     background: #1d334a;
 `;
+
+export const InfoRow = styled.View`
+    flex-direction: row;
+    padding: 10px;
+    justify-content: space-around;
+`;
+
+export const InfoItem = styled.View`
+    flex-direction: row;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background: #191919;
+`;
+
 export const Info = styled.View`
     padding: 10px;
     background: ${(props) => props.background};
@@ -45,4 +59,8 @@ export const Link = styled.TouchableOpacity`
     align-self: center;
     padding: 15px;
     margin-top: 20px;
+`;
+
+export const IconView = styled.View`
+    margin-right: 10px;
 `;

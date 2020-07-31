@@ -1,5 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
+import ADIcon from 'react-native-vector-icons/AntDesign';
+import MDIcon from 'react-native-vector-icons/MaterialIcons';
+
 import api from '../../services/api';
 
 import poster from '../../assets/images/poster.jpg';
@@ -10,11 +13,14 @@ import {
     PosterView,
     GenresRow,
     Genre,
+    InfoRow,
+    InfoItem,
     Info,
     Link,
     Person,
     PersonPhoto,
-    PersonInfo
+    PersonInfo,
+    IconView
 } from './styles';
 
 const Details = ({route}) => {
@@ -63,6 +69,34 @@ const Details = ({route}) => {
                     <PosterView>
                         <Poster source={poster} />
                     </PosterView>
+                    <InfoRow>
+                        <InfoItem>
+                            <IconView>
+                                <ADIcon
+                                    name="calendar"
+                                    size={25}
+                                    color="#fff"
+                                />
+                            </IconView>
+                            <Text>{summary.year}</Text>
+                        </InfoItem>
+                        <InfoItem>
+                            <IconView>
+                                <MDIcon name="star" size={25} color="#ff0" />
+                            </IconView>
+                            <Text>{Number(summary.rating).toFixed(2)}</Text>
+                        </InfoItem>
+                        <InfoItem>
+                            <IconView>
+                                <MDIcon
+                                    name="access-time"
+                                    size={25}
+                                    color="#fff"
+                                />
+                            </IconView>
+                            <Text>{summary.runtime} min</Text>
+                        </InfoItem>
+                    </InfoRow>
                     <Info background="#1d334a">
                         <Text size="16px" weight="bold">
                             {summary.title}

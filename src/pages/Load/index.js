@@ -1,5 +1,8 @@
 import React, {useEffect} from 'react';
 import {View, Text} from 'react-native';
+import Lottie from 'lottie-react-native';
+
+import loadAnimation from '../../assets/animations/load.json';
 
 import api from '../../services/api';
 import {fetchMovies} from '../../store/modules/Movies/actions';
@@ -29,7 +32,7 @@ const Load = () => {
     });
     return (
         <Container>
-            <Text>Carregando dados</Text>
+            <Lottie source={loadAnimation} autoPlay loop />
         </Container>
     );
 };

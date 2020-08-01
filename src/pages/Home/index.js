@@ -8,6 +8,9 @@ import {
     Picker,
     TextInput
 } from 'react-native';
+import Lottie from 'lottie-react-native';
+
+import emptyAnimation from '../../assets/animations/empty.json';
 
 import api from '../../services/api';
 import {updateMovies} from '../../store/modules/Movies/actions';
@@ -254,9 +257,7 @@ const Home = () => {
 
     const filterMovies = async () => {
         hideFilters();
-        const query = getQuery();
-        console.warn(query);
-        const response = await api.get(query);
+        const response = await api.get(getQuery());
         dispatch(updateMovies(response.data));
     };
 
@@ -367,6 +368,14 @@ const Home = () => {
             );
         }
     };
+
+    if (movies.length === 0) {
+        return (
+            <Container>
+                <Lottie source={emptyAnimation} autoPlay loop />
+            </Container>
+        );
+    }
 
     return (
         <Container>

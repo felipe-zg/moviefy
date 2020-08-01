@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {TouchableOpacity, Text} from 'react-native';
+import {TouchableOpacity} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
 import Icon from 'react-native-vector-icons/AntDesign';
@@ -9,6 +9,7 @@ import {fetchTrendings} from '../../store/modules/Trending/actions';
 
 import Container from '../../components/Container';
 import Show from '../../components/Show';
+import Text from '../../components/Text';
 import {Header, MovieList} from './styles';
 
 const Home = () => {
@@ -28,10 +29,11 @@ const Home = () => {
             {trendings && (
                 <>
                     <Header>
-                        <Text style={{color: '#fff', fontSize: 26}}>
-                            Top filmes
+                        <Text size="20px" weight="bold">
+                            Top movies
                         </Text>
-                        <TouchableOpacity onPress={() => console.warn('more')}>
+                        <TouchableOpacity
+                            onPress={() => navigation.navigate('SearchScreen')}>
                             <Icon name="pluscircleo" color="#fff" size={40} />
                         </TouchableOpacity>
                     </Header>

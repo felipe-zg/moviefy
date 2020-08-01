@@ -232,10 +232,10 @@ const Home = () => {
     const movies = useSelector((state) => state.Movies);
     const [isFormVisible, setIsFormVisible] = useState(false);
     const [query, setQuery] = useState('');
-    const [language, setLanguage] = useState('en');
-    const [country, setCountry] = useState('us');
-    const [genrer, setGenrer] = useState('action');
-    const [year, setYear] = useState('2020');
+    const [language, setLanguage] = useState('');
+    const [country, setCountry] = useState('');
+    const [genrer, setGenrer] = useState('');
+    const [year, setYear] = useState('');
 
     const formPosition = useRef(new Animated.ValueXY({x: 0, y: -SCREEN_HEIGHT}))
         .current;

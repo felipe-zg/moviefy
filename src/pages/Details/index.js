@@ -2,10 +2,14 @@ import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import ADIcon from 'react-native-vector-icons/AntDesign';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import Lottie from 'lottie-react-native';
+
+import loadAnimation from '../../assets/animations/load.json';
+import poster from '../../assets/images/poster.jpg';
 
 import api from '../../services/api';
 
-import poster from '../../assets/images/poster.jpg';
+import Container from '../../components/Container';
 import ScrollableContainer from '../../components/ScrollableContainer';
 import Text from '../../components/Text';
 import {
@@ -61,6 +65,13 @@ const Details = ({route}) => {
         });
     };
 
+    if (!summary || !people) {
+        return (
+            <Container>
+                <Lottie source={loadAnimation} autoPlay loop />
+            </Container>
+        );
+    }
     return (
         <ScrollableContainer>
             {!summary && <Text>Carregando</Text>}

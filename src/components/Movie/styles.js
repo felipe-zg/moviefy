@@ -14,7 +14,7 @@ export const Photo = styled.Image`
 `;
 
 export const Info = styled.View`
-    margin: 10px;
+    padding: 10px;
 `;
 
 export const NumberOfViewers = styled.View`

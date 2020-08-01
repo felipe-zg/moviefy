@@ -7,7 +7,7 @@ import poster from '../../assets/images/poster.jpg';
 import Text from '../Text';
 import {MovieRow, Photo, Info, NumberOfViewers} from './styles';
 
-const Show = ({show, watchers}) => {
+const Movie = ({show, watchers}) => {
     return (
         <MovieRow>
             <Photo source={poster} />
@@ -16,15 +16,17 @@ const Show = ({show, watchers}) => {
                     {show.title}
                 </Text>
                 <Text numberOfLines={1}>{show.year}</Text>
-                <NumberOfViewers>
-                    <Icon name="user" color="#fff" size={20} />
-                    <Text numberOfLines={1}>
-                        {watchers} pessoas já assistiram
-                    </Text>
-                </NumberOfViewers>
+                {watchers && (
+                    <NumberOfViewers>
+                        <Icon name="user" color="#fff" size={20} />
+                        <Text numberOfLines={1}>
+                            {watchers} people watching
+                        </Text>
+                    </NumberOfViewers>
+                )}
             </Info>
         </MovieRow>
     );
 };
 
-export default Show;
+export default Movie;

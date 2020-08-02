@@ -1,7 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {View} from 'react-native';
+import {useNavigation} from '@react-navigation/native';
+import {TouchableOpacity} from 'react-native';
 import ADIcon from 'react-native-vector-icons/AntDesign';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
+import IOIcon from 'react-native-vector-icons/Ionicons';
 import Lottie from 'lottie-react-native';
 
 import loadAnimation from '../../assets/animations/load.json';
@@ -31,6 +33,7 @@ const Details = ({route}) => {
     const {show} = route.params;
     const [summary, setSummary] = useState(null);
     const [people, setPeople] = useState(null);
+    const navigation = useNavigation();
 
     useEffect(() => {
         api.get(`/movies/${show.ids.trakt}?extended=full`).then((response) => {
@@ -77,6 +80,9 @@ const Details = ({route}) => {
             {!summary && <Text>Carregando</Text>}
             {summary && (
                 <>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <IOIcon name="ios-arrow-undo" color="#fff" size={35} />
+                    </TouchableOpacity>
                     <PosterView>
                         <Poster source={poster} />
                     </PosterView>
@@ -135,9 +141,16 @@ const Details = ({route}) => {
                 </Text>
             </Info>
             {people && renderCast()}
-            <Link onPress={() => console.warn('abrindo site')}>
-                <Text>Go to website</Text>
-            </Link>
+            {summary.homepage && (
+                <Link
+                    onPress={() => {
+                        navigation.navigate('WebSiteScreen', {
+                            homepage: summary.homepage
+                        });
+                    }}>
+                    <Text>Go to website</Text>
+                </Link>
+            )}
         </ScrollableContainer>
     );
 };

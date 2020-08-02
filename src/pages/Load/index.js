@@ -21,7 +21,7 @@ const Load = () => {
             const languages = await api.get('/countries/movies');
             const countries = await api.get('/genres/movies');
             const genres = await api.get('/languages/movies');
-            const movies = await api.get('/movies/trending');
+            const movies = await api.get('/movies/trending?page=1&limit=40');
             dispatch(fetchMovies(movies.data));
             navigation.navigate('HomeScreen');
             // dispatch();

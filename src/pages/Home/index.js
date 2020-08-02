@@ -246,7 +246,7 @@ const Home = () => {
     const dispatch = useDispatch();
 
     const getQuery = () => {
-        let requestPath = `/search/movie?query=${query}`;
+        let requestPath = `/search/movie?page=1&limit=40&query=${query}`;
         requestPath += year ? `&years=${year}` : '';
         requestPath += country ? `&countries=${country}` : '';
         requestPath += language ? `&languages=${language}` : '';
@@ -399,11 +399,11 @@ const Home = () => {
                         data={movies}
                         renderItem={({item}) => (
                             <TouchableOpacity
-                                onPress={() =>
+                                onPress={() => {
                                     navigation.navigate('DetailsScreen', {
                                         show: item.movie
-                                    })
-                                }>
+                                    });
+                                }}>
                                 <Movie
                                     show={item.movie}
                                     watchers={

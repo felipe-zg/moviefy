@@ -3,6 +3,7 @@ import styled from 'styled-components/native';
 export const PosterView = styled.View`
     width: 100%;
     align-items: center;
+    margin-top: -35px;
 `;
 export const Poster = styled.Image`
     height: 300px;
@@ -58,7 +59,9 @@ export const PersonInfo = styled.View`
 export const Link = styled.TouchableOpacity`
     align-self: center;
     padding: 15px;
-    margin-top: 20px;
+    margin: 20px 0 10px 0;
+    background: #5ae4aa;
+    border-radius: 10px;
 `;
 
 export const IconView = styled.View`

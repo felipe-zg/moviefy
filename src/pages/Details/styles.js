@@ -27,6 +27,7 @@ export const InfoRow = styled.View`
     flex-direction: row;
     padding: 10px;
     justify-content: space-around;
+    background: ${(props) => props.background || '#1d334a'};
 `;
 
 export const InfoItem = styled.View`

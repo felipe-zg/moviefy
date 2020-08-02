@@ -129,13 +129,13 @@ const Details = ({route}) => {
                         </Text>
                         <Text size="14px">{summary.tagline}</Text>
                     </Info>
-                    <GenresRow>
+                    <InfoRow background="#004565">
                         {summary.genres.map((genrer, index) => (
                             <Genre key={index}>
                                 <Text>{genrer}</Text>
                             </Genre>
                         ))}
-                    </GenresRow>
+                    </InfoRow>
                     <Info background="#084d6e">
                         <Text size="14px" weight="bold">
                             Overview

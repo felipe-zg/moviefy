@@ -1,52 +1,68 @@
 {
-  "name": "moviefy",
-  "version": "0.0.1",
-  "private": true,
-  "scripts": {
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
-    "start": "react-native start",
-    "test": "jest",
-    "lint": "eslint ."
-  },
-  "dependencies": {
-    "@react-native-community/async-storage": "^1.11.0",
-    "@react-native-community/masked-view": "^0.1.10",
-    "@react-navigation/native": "^5.7.2",
-    "@react-navigation/stack": "^5.8.0",
-    "axios": "^0.19.2",
-    "immer": "^7.0.7",
-    "lottie-ios": "3.1.8",
-    "lottie-react-native": "^3.5.0",
-    "prettier": "^2.0.5",
-    "react": "16.13.1",
-    "react-native": "0.63.2",
-    "react-native-dotenv": "^2.2.6",
-    "react-native-gesture-handler": "^1.7.0",
-    "react-native-reanimated": "^1.10.1",
-    "react-native-safe-area-context": "^3.1.1",
-    "react-native-screens": "^2.9.0",
-    "react-native-vector-icons": "^7.0.0",
-    "react-native-webview": "^10.3.3",
-    "react-redux": "^7.2.1",
-    "redux": "^4.0.5",
-    "redux-promise-middleware": "^6.1.2",
-    "styled-components": "^5.1.1"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.11.0",
-    "@babel/runtime": "^7.11.0",
-    "@react-native-community/eslint-config": "^2.0.0",
-    "babel-jest": "^26.2.2",
-    "eslint": "^7.5.0",
-    "jest": "^26.2.2",
-    "metro-react-native-babel-preset": "^0.61.0",
-    "react-test-renderer": "16.13.1"
-  },
-  "resolutions": {
-    "styled-components": "^5"
-  },
-  "jest": {
-    "preset": "react-native"
-  }
+    "name": "moviefy",
+    "version": "0.0.1",
+    "private": true,
+    "scripts": {
+        "android": "react-native run-android",
+        "ios": "react-native run-ios",
+        "start": "react-native start",
+        "test": "jest",
+        "lint": "eslint ."
+    },
+    "dependencies": {
+        "@react-native-community/async-storage": "^1.11.0",
+        "@react-native-community/masked-view": "^0.1.10",
+        "@react-navigation/native": "^5.7.2",
+        "@react-navigation/stack": "^5.8.0",
+        "@types/jest": "^26.0.8",
+        "axios": "^0.19.2",
+        "immer": "^7.0.7",
+        "lottie-ios": "3.1.8",
+        "lottie-react-native": "^3.5.0",
+        "prettier": "^2.0.5",
+        "react": "16.13.1",
+        "react-native": "0.63.2",
+        "react-native-dotenv": "^2.2.6",
+        "react-native-gesture-handler": "^1.7.0",
+        "react-native-reanimated": "^1.10.1",
+        "react-native-safe-area-context": "^3.1.1",
+        "react-native-screens": "^2.9.0",
+        "react-native-vector-icons": "^7.0.0",
+        "react-native-webview": "^10.3.3",
+        "react-redux": "^7.2.1",
+        "redux": "^4.0.5",
+        "redux-promise-middleware": "^6.1.2",
+        "styled-components": "^5.1.1"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.11.0",
+        "@babel/runtime": "^7.11.0",
+        "@react-native-community/eslint-config": "^2.0.0",
+        "@testing-library/jest-native": "^3.3.0",
+        "@testing-library/react-native": "^7.0.1",
+        "babel-jest": "^26.2.2",
+        "eslint": "^7.5.0",
+        "jest": "^26.2.2",
+        "metro-react-native-babel-preset": "^0.61.0",
+        "react-test-renderer": "16.13.1"
+    },
+    "resolutions": {
+        "styled-components": "^5"
+    },
+    "jest": {
+        "preset": "react-native",
+        "testMatch": [
+            "**/__tests__/**/*.test.js"
+        ],
+        "setupFilesAfterEnv": [
+            "@testing-library/jest-native/extend-expect"
+        ],
+        "collect Coverage From": [
+            "!src/services/*"
+        ],
+        "coverageDirectory": "__teste__/coverage",
+        "moduleNameMapper": {
+            "^~/(.*)": "<rootDir>/src/$1"
+        }
+    }
 }

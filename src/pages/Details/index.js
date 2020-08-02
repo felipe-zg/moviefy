@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
-import {TouchableOpacity} from 'react-native';
+import {TouchableOpacity, Linking, Alert} from 'react-native';
 import ADIcon from 'react-native-vector-icons/AntDesign';
 import MDIcon from 'react-native-vector-icons/MaterialIcons';
 import IOIcon from 'react-native-vector-icons/Ionicons';
@@ -30,19 +30,29 @@ import {
 } from './styles';
 
 const Details = ({route}) => {
-    const {show} = route.params;
+    const {movie, photo} = route.params;
     const [summary, setSummary] = useState(null);
     const [people, setPeople] = useState(null);
     const navigation = useNavigation();
 
     useEffect(() => {
-        api.get(`/movies/${show.ids.trakt}?extended=full`).then((response) => {
+        api.get(`/movies/${movie.ids.trakt}?extended=full`).then((response) => {
             setSummary(response.data);
         });
-        api.get(`/movies/${show.ids.trakt}/people`).then((response) => {
+        api.get(`/movies/${movie.ids.trakt}/people`).then((response) => {
             setPeople(response.data);
         });
     });
+
+    const openUrl = useCallback(async (url) => {
+        const supported = await Linking.canOpenURL(url);
+
+        if (supported) {
+            await Linking.openURL(url);
+        } else {
+            Alert.alert(`Don't know how to open this URL: ${url}`);
+        }
+    }, []);
 
     const renderCast = () => {
         return people.cast.map((person, index) => {
@@ -84,7 +94,7 @@ const Details = ({route}) => {
                         <IOIcon name="ios-arrow-undo" color="#fff" size={35} />
                     </TouchableOpacity>
                     <PosterView>
-                        <Poster source={poster} />
+                        <Poster source={{uri: photo}} />
                     </PosterView>
                     <InfoRow>
                         <InfoItem>
@@ -142,12 +152,7 @@ const Details = ({route}) => {
             </Info>
             {people && renderCast()}
             {summary.homepage && (
-                <Link
-                    onPress={() => {
-                        navigation.navigate('WebSiteScreen', {
-                            homepage: summary.homepage
-                        });
-                    }}>
+                <Link onPress={() => openUrl(summary.homepage)}>
                     <Text>Go to website</Text>
                 </Link>
             )}

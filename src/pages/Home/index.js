@@ -398,19 +398,10 @@ const Home = () => {
                         style={moviesListPosition.getLayout()}
                         data={movies}
                         renderItem={({item}) => (
-                            <TouchableOpacity
-                                onPress={() => {
-                                    navigation.navigate('DetailsScreen', {
-                                        show: item.movie
-                                    });
-                                }}>
-                                <Movie
-                                    show={item.movie}
-                                    watchers={
-                                        item.watchers ? item.watchers : null
-                                    }
-                                />
-                            </TouchableOpacity>
+                            <Movie
+                                show={item.movie}
+                                watchers={item.watchers ? item.watchers : null}
+                            />
                         )}
                         keyExtractor={(item) => String(item.movie.ids.trakt)}
                     />

@@ -1,16 +1,17 @@
 import React, {useEffect} from 'react';
-import {View, Text} from 'react-native';
+import {useDispatch} from 'react-redux';
+import {useNavigation} from '@react-navigation/native';
+import {View, Text, Alert} from 'react-native';
 import Lottie from 'lottie-react-native';
-
-import loadAnimation from '../../assets/animations/load.json';
+import AsyncStorage from '@react-native-community/async-storage';
 
 import api from '../../services/api';
 import {fetchMovies} from '../../store/modules/Movies/actions';
 
+import loadAnimation from '../../assets/animations/load.json';
 import Container from '../../components/Container';
-import {useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-// import { Container } from './styles';
+
+import Years from '../../helpers/years';
 
 const Load = () => {
     const dispatch = useDispatch();
@@ -18,17 +19,47 @@ const Load = () => {
 
     useEffect(() => {
         async function loadInitialData() {
-            const languages = await api.get('/countries/movies');
-            const countries = await api.get('/genres/movies');
-            const genres = await api.get('/languages/movies');
+            try {
+                const storedLanguages = await AsyncStorage.getItem('languages');
+                const storedCountries = await AsyncStorage.getItem('countries');
+                const storedGenres = await AsyncStorage.getItem('genres');
+                const storedYears = await AsyncStorage.getItem('years');
+                if (storedLanguages === null) {
+                    const languages = await api.get('/languages/movies');
+                    await AsyncStorage.setItem(
+                        'languages',
+                        JSON.stringify(languages.data)
+                    );
+                }
+                if (!storedCountries) {
+                    const countries = await api.get('/countries/movies');
+                    await AsyncStorage.setItem(
+                        'countries',
+                        JSON.stringify(countries.data)
+                    );
+                }
+                if (!storedGenres) {
+                    const genres = await api.get('/genres/movies');
+                    await AsyncStorage.setItem(
+                        'genres',
+                        JSON.stringify(genres.data)
+                    );
+                }
+                if (!storedYears) {
+                    await AsyncStorage.setItem(
+                        'years',
+                        JSON.stringify(Years.years)
+                    );
+                }
+            } catch (e) {
+                Alert.alert('Something went wrong, try again later');
+            }
+
             const movies = await api.get('/movies/trending?page=1&limit=40');
             dispatch(fetchMovies(movies.data));
             navigation.navigate('HomeScreen');
-            // dispatch();
-            // dispatch();
-            // dispatch();
         }
-        const movies = loadInitialData();
+        loadInitialData();
     });
     return (
         <Container>

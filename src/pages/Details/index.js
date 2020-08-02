@@ -7,7 +7,6 @@ import IOIcon from 'react-native-vector-icons/Ionicons';
 import Lottie from 'lottie-react-native';
 
 import loadAnimation from '../../assets/animations/load.json';
-import poster from '../../assets/images/poster.jpg';
 
 import api from '../../services/api';
 

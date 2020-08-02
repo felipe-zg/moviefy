@@ -1,6 +1,8 @@
-import React, {useRef, useEffect, useState} from 'react';
+import React, {useRef, useEffect, useState, useCallback} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useSelector, useDispatch} from 'react-redux';
+import AsyncStorage from '@react-native-community/async-storage';
+
 import {
     Animated,
     Dimensions,
@@ -24,226 +26,49 @@ import {Header, Form, Input, Button, ShowFormButton} from './styles';
 const SCREEN_HEIGHT = Dimensions.get('window').height;
 const SCREEN_WIDTH = Dimensions.get('window').width;
 
-const LANGUAGES = [
-    {
-        name: 'blank',
-        code: null
-    },
-    {
-        name: 'English',
-        code: 'en'
-    },
-    {
-        name: 'Italian',
-        code: 'it'
-    },
-    {
-        name: 'Polish',
-        code: 'pl'
-    }
-];
-
-const GENRES = [
-    {
-        name: 'blank',
-        slug: null
-    },
-    {
-        name: 'Action',
-        slug: 'action'
-    },
-    {
-        name: 'Adventure',
-        slug: 'adventure'
-    },
-    {
-        name: 'Animation',
-        slug: 'animation'
-    },
-    {
-        name: 'Anime',
-        slug: 'anime'
-    },
-    {
-        name: 'Comedy',
-        slug: 'comedy'
-    },
-    {
-        name: 'Crime',
-        slug: 'crime'
-    },
-    {
-        name: 'Disaster',
-        slug: 'disaster'
-    },
-    {
-        name: 'Documentary',
-        slug: 'documentary'
-    },
-    {
-        name: 'Drama',
-        slug: 'drama'
-    },
-    {
-        name: 'Eastern',
-        slug: 'eastern'
-    },
-    {
-        name: 'Family',
-        slug: 'family'
-    },
-    {
-        name: 'Fan Film',
-        slug: 'fan-film'
-    },
-    {
-        name: 'Fantasy',
-        slug: 'fantasy'
-    },
-    {
-        name: 'Film Noir',
-        slug: 'film-noir'
-    },
-    {
-        name: 'History',
-        slug: 'history'
-    },
-    {
-        name: 'Holiday',
-        slug: 'holiday'
-    },
-    {
-        name: 'Horror',
-        slug: 'horror'
-    },
-    {
-        name: 'Indie',
-        slug: 'indie'
-    },
-    {
-        name: 'Music',
-        slug: 'music'
-    },
-    {
-        name: 'Musical',
-        slug: 'musical'
-    },
-    {
-        name: 'Mystery',
-        slug: 'mystery'
-    },
-    {
-        name: 'None',
-        slug: 'none'
-    },
-    {
-        name: 'Road',
-        slug: 'road'
-    },
-    {
-        name: 'Romance',
-        slug: 'romance'
-    },
-    {
-        name: 'Science Fiction',
-        slug: 'science-fiction'
-    },
-    {
-        name: 'Short',
-        slug: 'short'
-    },
-    {
-        name: 'Sports',
-        slug: 'sports'
-    },
-    {
-        name: 'Sporting Event',
-        slug: 'sporting-event'
-    },
-    {
-        name: 'Suspense',
-        slug: 'suspense'
-    },
-    {
-        name: 'Thriller',
-        slug: 'thriller'
-    },
-    {
-        name: 'Tv Movie',
-        slug: 'tv-movie'
-    },
-    {
-        name: 'War',
-        slug: 'war'
-    },
-    {
-        name: 'Western',
-        slug: 'western'
-    }
-];
-
-const COUNTRIES = [
-    {
-        name: 'blank',
-        code: null
-    },
-    {
-        name: 'Australia',
-        code: 'au'
-    },
-    {
-        name: 'Japan',
-        code: 'ja'
-    },
-    {
-        name: 'United States',
-        code: 'us'
-    }
-];
-
-const YEARS = [
-    {
-        name: 'blank',
-        code: null
-    },
-    {
-        name: '2022',
-        code: '2022'
-    },
-    {
-        name: '2021',
-        code: '2021'
-    },
-    {
-        name: '2020',
-        code: '2020'
-    },
-    {
-        name: '2019',
-        code: '2019'
-    },
-    {
-        name: '2018',
-        code: '2018'
-    }
-];
-
 const Home = () => {
     const movies = useSelector((state) => state.Movies);
     const [isFormVisible, setIsFormVisible] = useState(false);
+
     const [query, setQuery] = useState('');
     const [language, setLanguage] = useState('');
     const [country, setCountry] = useState('');
     const [genrer, setGenrer] = useState('');
     const [year, setYear] = useState('');
 
+    const [languages, setLanguages] = useState([{name: 'blank', code: ''}]);
+    const [countries, setCountries] = useState([{name: 'blank', code: ''}]);
+    const [genres, setGenres] = useState([{name: 'blank', slug: ''}]);
+    const [years, setYears] = useState([{name: 'blank', code: ''}]);
+
+    const [shouldgetFilters, setShouldGetFilters] = useState(true);
+
     const formPosition = useRef(new Animated.ValueXY({x: 0, y: -SCREEN_HEIGHT}))
         .current;
     const moviesListPosition = useRef(new Animated.ValueXY({x: 0, y: 0}))
         .current;
 
-    const navigation = useNavigation();
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (shouldgetFilters) {
+            getFilters();
+        }
+    });
+
+    const getFilters = () => {
+        setShouldGetFilters(false);
+        getFilter('languages', setLanguages);
+        getFilter('countries', setCountries);
+        getFilter('genres', setGenres);
+        getFilter('years', setYears);
+    };
+
+    const getFilter = async (filterKey, setFilter) => {
+        const storedFilter = await AsyncStorage.getItem(filterKey);
+        const returnFilter = JSON.parse(storedFilter);
+        setFilter(returnFilter);
+    };
 
     const getQuery = () => {
         let requestPath = `/search/movie?page=1&limit=40&query=${query}`;
@@ -283,8 +108,8 @@ const Home = () => {
         });
     };
 
-    const renderItems = (ITEMS) => {
-        return ITEMS.map((item) => {
+    const renderItems = (items) => {
+        return items.map((item) => {
             return (
                 <Picker.Item
                     label={item.name}
@@ -319,7 +144,8 @@ const Home = () => {
                             onValueChange={(itemValue, itemIndex) =>
                                 setGenrer(itemValue)
                             }>
-                            {renderItems(GENRES)}
+                            <Picker.Item label="blank" value="" key="0" />
+                            {renderItems(genres)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -332,7 +158,8 @@ const Home = () => {
                             onValueChange={(itemValue, itemIndex) =>
                                 setLanguage(itemValue)
                             }>
-                            {renderItems(LANGUAGES)}
+                            <Picker.Item label="blank" value="" key="0" />
+                            {renderItems(languages)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -345,7 +172,8 @@ const Home = () => {
                             onValueChange={(itemValue, itemIndex) =>
                                 setCountry(itemValue)
                             }>
-                            {renderItems(COUNTRIES)}
+                            <Picker.Item label="blank" value="" key="0" />
+                            {renderItems(countries)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -358,7 +186,8 @@ const Home = () => {
                             onValueChange={(itemValue, itemIndex) =>
                                 setYear(itemValue)
                             }>
-                            {renderItems(YEARS)}
+                            <Picker.Item label="blank" value="" key="0" />
+                            {renderItems(years)}
                         </Picker>
                     </Input>
                     <Button onPress={filterMovies}>

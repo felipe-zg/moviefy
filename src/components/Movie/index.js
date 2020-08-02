@@ -4,15 +4,13 @@ import {TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import fanartApi from '../../services/fanartApi';
 
+import {FANART_API_KEY, DEFAULT_MOVIE_POSTER} from '@env';
+
 import Text from '../Text';
 import {MovieRow, Photo, Info, NumberOfViewers} from './styles';
 
-const FANART_API_KEY = '63408126185cd1fbcbf87266fa27b5c0';
-const DEFAULT_POSTER =
-    'https://images.unsplash.com/photo-1542204165-65bf26472b9b?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80';
-
 const Movie = ({show: movie, watchers}) => {
-    const [photo, setPhoto] = useState(DEFAULT_POSTER);
+    const [photo, setPhoto] = useState(DEFAULT_MOVIE_POSTER);
     const navigation = useNavigation();
     useEffect(() => {
         const getPhoto = async () => {
@@ -27,7 +25,7 @@ const Movie = ({show: movie, watchers}) => {
                     });
             }
         };
-        if (photo === DEFAULT_POSTER) {
+        if (photo === DEFAULT_MOVIE_POSTER) {
             getPhoto();
         }
     });

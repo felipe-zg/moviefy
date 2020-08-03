@@ -100,7 +100,7 @@ const Home = () => {
         });
     };
 
-    const renderItems = (items) => {
+    const renderPickerItems = (items) => {
         return items.map((item) => {
             return (
                 <Picker.Item
@@ -137,7 +137,7 @@ const Home = () => {
                                 setGenrer(itemValue)
                             }>
                             <Picker.Item label="blank" value="" key="0" />
-                            {renderItems(genres)}
+                            {renderPickerItems(genres)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -151,7 +151,7 @@ const Home = () => {
                                 setLanguage(itemValue)
                             }>
                             <Picker.Item label="blank" value="" key="0" />
-                            {renderItems(languages)}
+                            {renderPickerItems(languages)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -165,7 +165,7 @@ const Home = () => {
                                 setCountry(itemValue)
                             }>
                             <Picker.Item label="blank" value="" key="0" />
-                            {renderItems(countries)}
+                            {renderPickerItems(countries)}
                         </Picker>
                     </Input>
                     <Text color="#1d334a" weight="bold">
@@ -179,7 +179,7 @@ const Home = () => {
                                 setYear(itemValue)
                             }>
                             <Picker.Item label="blank" value="" key="0" />
-                            {renderItems(years)}
+                            {renderPickerItems(years)}
                         </Picker>
                     </Input>
                     <Button onPress={filterMovies}>
@@ -220,7 +220,7 @@ const Home = () => {
                         data={movies}
                         renderItem={({item}) => (
                             <Movie
-                                show={item.movie}
+                                movie={item.movie}
                                 watchers={item.watchers ? item.watchers : null}
                             />
                         )}

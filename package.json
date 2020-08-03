@@ -63,6 +63,12 @@
         "coverageDirectory": "__teste__/coverage",
         "moduleNameMapper": {
             "^~/(.*)": "<rootDir>/src/$1"
-        }
+        },
+        "setupFiles": [
+            "./node_modules/react-native-gesture-handler/jestSetup.js"
+        ],
+        "transformIgnorePatterns": [
+            "/node_modules/(?!native-base)/"
+        ]
     }
 }

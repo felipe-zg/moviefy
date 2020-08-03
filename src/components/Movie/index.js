@@ -9,7 +9,7 @@ import {FANART_API_KEY, DEFAULT_MOVIE_POSTER} from '@env';
 import Text from '../Text';
 import {MovieRow, Photo, Info, NumberOfViewers} from './styles';
 
-const Movie = ({show: movie, watchers}) => {
+const Movie = ({movie, watchers}) => {
     const [photo, setPhoto] = useState(DEFAULT_MOVIE_POSTER);
     const navigation = useNavigation();
     useEffect(() => {
@@ -31,6 +31,7 @@ const Movie = ({show: movie, watchers}) => {
     });
     return (
         <TouchableOpacity
+            testID="movie-touchable"
             onPress={() => {
                 navigation.navigate('DetailsScreen', {movie, photo});
             }}>
@@ -41,14 +42,18 @@ const Movie = ({show: movie, watchers}) => {
                     }}
                 />
                 <Info>
-                    <Text numberOfLines={2} size="16px" weight="bold">
+                    <Text
+                        testID="movie-title"
+                        numberOfLines={2}
+                        size="16px"
+                        weight="bold">
                         {movie.title}
                     </Text>
-                    <Text numberOfLines={1}>{movie.year}</Text>
+                    <Text testID="movie-year">{movie.year}</Text>
                     {watchers && (
                         <NumberOfViewers>
                             <Icon name="user" color="#fff" size={20} />
-                            <Text numberOfLines={1}>
+                            <Text testID="movie-watchers" numberOfLines={1}>
                                 {watchers} people watching
                             </Text>
                         </NumberOfViewers>

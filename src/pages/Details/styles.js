@@ -45,12 +45,8 @@ export const Info = styled.View`
 export const Person = styled.View`
     flex-direction: row;
     padding: 10px;
-`;
-
-export const PersonPhoto = styled.View`
-    height: 150px;
-    width: 100px;
-    border: 1px solid #fff;
+    border: 0px solid rgba(255, 255, 255, 0.5);
+    border-bottom-width: 1px;
 `;
 
 export const PersonInfo = styled.View`

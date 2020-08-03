@@ -16,14 +16,12 @@ import Text from '../../components/Text';
 import {
     Poster,
     PosterView,
-    GenresRow,
     Genre,
     InfoRow,
     InfoItem,
     Info,
     Link,
     Person,
-    PersonPhoto,
     PersonInfo,
     IconView
 } from './styles';
@@ -45,12 +43,9 @@ const Details = ({route}) => {
 
     const openUrl = useCallback(async (url) => {
         const supported = await Linking.canOpenURL(url);
-
-        if (supported) {
-            await Linking.openURL(url);
-        } else {
-            Alert.alert(`Don't know how to open this URL: ${url}`);
-        }
+        supported
+            ? await Linking.openURL(url)
+            : Alert.alert(`Don't know how to open this URL: ${url}`);
     }, []);
 
     const renderCast = () => {
@@ -58,7 +53,6 @@ const Details = ({route}) => {
             if (index < 5) {
                 return (
                     <Person key={index}>
-                        <PersonPhoto />
                         <PersonInfo>
                             <Text size="14px" weight="bold">
                                 Actor/Actress:
@@ -86,7 +80,6 @@ const Details = ({route}) => {
     }
     return (
         <ScrollableContainer>
-            {!summary && <Text>Carregando</Text>}
             {summary && (
                 <>
                     <TouchableOpacity onPress={() => navigation.goBack()}>

@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {View, Text, Alert} from 'react-native';
+import {Alert} from 'react-native';
 import Lottie from 'lottie-react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 

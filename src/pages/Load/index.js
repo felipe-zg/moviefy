@@ -19,48 +19,46 @@ const Load = () => {
 
     useEffect(() => {
         async function loadInitialData() {
-            try {
-                const storedLanguages = await AsyncStorage.getItem('languages');
-                const storedCountries = await AsyncStorage.getItem('countries');
-                const storedGenres = await AsyncStorage.getItem('genres');
-                const storedYears = await AsyncStorage.getItem('years');
-                if (storedLanguages === null) {
-                    const languages = await api.get('/languages/movies');
-                    await AsyncStorage.setItem(
-                        'languages',
-                        JSON.stringify(languages.data)
-                    );
-                }
-                if (!storedCountries) {
-                    const countries = await api.get('/countries/movies');
-                    await AsyncStorage.setItem(
-                        'countries',
-                        JSON.stringify(countries.data)
-                    );
-                }
-                if (!storedGenres) {
-                    const genres = await api.get('/genres/movies');
-                    await AsyncStorage.setItem(
-                        'genres',
-                        JSON.stringify(genres.data)
-                    );
-                }
-                if (!storedYears) {
-                    await AsyncStorage.setItem(
-                        'years',
-                        JSON.stringify(Years.years)
-                    );
-                }
-            } catch (e) {
-                Alert.alert('Something went wrong, try again later');
-            }
-
+            await fetchFilters('languages');
+            await fetchFilters('countries');
+            await fetchFilters('genres');
+            await saveYears();
             const movies = await api.get('/movies/trending?page=1&limit=40');
             dispatch(fetchMovies(movies.data));
             navigation.navigate('HomeScreen');
         }
         loadInitialData();
     });
+
+    const fetchFilters = async (storageKey) => {
+        try {
+            const storedValue = await AsyncStorage.getItem(storageKey);
+            if (storedValue === null) {
+                const values = await api.get(`/${storageKey}/movies`);
+                await AsyncStorage.setItem(
+                    storageKey,
+                    JSON.stringify(values.data)
+                );
+            }
+        } catch (e) {
+            Alert.alert('Something went wrong, try again later');
+        }
+    };
+
+    const saveYears = async () => {
+        try {
+            const storedYears = await AsyncStorage.getItem('years');
+            if (!storedYears) {
+                await AsyncStorage.setItem(
+                    'years',
+                    JSON.stringify(Years.years)
+                );
+            }
+        } catch (e) {
+            Alert.alert('Something went wrong, try again later');
+        }
+    };
+
     return (
         <Container>
             <Lottie source={loadAnimation} autoPlay loop />

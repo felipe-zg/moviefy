@@ -15,6 +15,7 @@ export const Photo = styled.Image`
 
 export const Info = styled.View`
     padding: 10px;
+    width: 70%;
 `;
 
 export const NumberOfViewers = styled.View`

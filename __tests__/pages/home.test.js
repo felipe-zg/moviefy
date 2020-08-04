@@ -47,6 +47,5 @@ describe('<Home/>', () => {
     it('should', () => {
         // useSelector.mockImplementation((cb) => cb({Movies: movies}));
         // expect(getByText('THE BATMAN')).toBeTruthy();
-        expect(true).toBeTruthy();
     });
 });

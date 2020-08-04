@@ -19,9 +19,6 @@ const Movie = ({movie, watchers}) => {
                     .get(`/movies/${movie.ids.imdb}?api_key=${FANART_API_KEY}`)
                     .then((response) => {
                         setPhoto(response.data.movieposter[0].url);
-                    })
-                    .catch((e) => {
-                        console.log(e);
                     });
             }
         };

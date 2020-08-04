@@ -1,8 +1,9 @@
 import React, {useRef, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {Animated, Dimensions, Picker, TextInput} from 'react-native';
+import {Animated, Dimensions, TextInput} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import Lottie from 'lottie-react-native';
+import {Picker} from '@react-native-community/picker';
 
 import emptyAnimation from '../../assets/animations/empty.json';
 
